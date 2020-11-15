@@ -1,69 +1,41 @@
-var db = require("../models");
+/* eslint-disable prettier/prettier */
+module.exports = (app, db) => {
+  app.get("/comments", (req, res) => db.comment.findAll().then(result => res.json(result))
+  );
 
-// Routes
-// =============================================================
-module.exports = function(app) {
+  app.get("/comment/:id", (req, res) => db.comment.findByPk(req.params.id).then(result => res.json(result))
+  );
 
-  // GET route for getting all of the posts
-  app.get("/api/comments", function(req, res) {
-    var query = {};
-    if (req.query.author_id) {
-      query.AuthorId = req.query.author_id;
-    }
-    // Here we add an "include" property to our options in our findAll query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Author
-    db.Comment.findAll({
-      where: query,
-      include: [db.Author]
-    }).then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
+  app.post("/comment", (req, res) => db.comment
+    .create({
+      title: req.body.title,
+      content: req.body.content
+    })
+    .then(result => res.json(result))
+  );
 
-  // Get route for retrieving a single post
-  app.get("/api/comments/:id", function(req, res) {
-    // Here we add an "include" property to our options in our findOne query
-    // We set the value to an array of the models we want to include in a left outer join
-    // In this case, just db.Author
-    db.Comment.findOne({
-      where: {
-        id: req.params.id
+  app.put("/comment/:id", (req, res) => db.comment
+    .update(
+      {
+        title: req.body.title,
+        content: req.body.content
       },
-      include: [db.Author]
-    }).then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    )
+    .then(result => res.json(result))
+  );
 
-  // POST route for saving a new post
-  app.post("/api/comments", function(req, res) {
-    db.Post.create(req.body).then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  // DELETE route for deleting posts
-  app.delete("/api/comments/:id", function(req, res) {
-    db.Comment.destroy({
+  app.delete("/comment/:id", (req, res) => db.comment
+    .destroy({
       where: {
         id: req.params.id
       }
-    }).then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
-
-  // PUT route for updating posts
-  app.put("/api/comments", function(req, res) {
-    db.Comment.update(
-      req.body,
-      {
-        where: {
-          id: req.body.id
-        }
-      }).then(function(dbPost) {
-      res.json(dbPost);
-    });
-  });
+    })
+    .then(result => res.json(result))
+  );
 };
+
