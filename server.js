@@ -1,10 +1,15 @@
+/* eslint-disable prettier/prettier */
 // Requiring necessary npm packages
 const express = require("express");
-const session = require("express-session");
 const exphbs = require("express-handlebars");
+const bodyParser = require("body-parser");
+const times = require("lodash.times");
+const random = require("lodash.random");
+const faker = require("faker");
+const path = require("path");
 // Requiring passport as we've configured it
-const passport = require("./config/passport");
-
+const authorRoute = require("./routes/api-routes-author");
+const commentRoute = require("./routes/api-routes-comment");
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 8080;
 const db = require("./models");
@@ -13,31 +18,48 @@ const db = require("./models");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
-// Use express-handlebars
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.use(bodyParser.json());
 app.set("view engine", "handlebars");
-// We need to use sessions to keep track of our user's login status
-app.use(
-  session({ secret: "keyboard cat", resave: true, saveUninitialized: true })
+//Sets handlebars configurations (we will go through them later on)
+app.engine(
+  "handlebars",
+  exphbs({
+    layoutsDir: path.join(__dirname + "/views/layouts")
+  })
 );
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(express.static("public"));
+app.get("/", (req, res) => {
+  //Serves the body of the page aka "main.handlebars" to the container //aka "index.handlebars"
+  res.render("main", { layout: "index" });
+});
 
-// Requiring our routes
-require("./routes/html-routes.js")(app);
-require("./routes/api-routes-author.js")(app);
-require("./routes/api-routes.js")(app);
-require("./routes/api-routes-comment.js")(app);
+//Routes
+authorRoute(app, db);
+commentRoute(app, db);
 
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(
-      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
-      PORT,
-      PORT
-    );
-  });
+  // populate author table with dummy data
+  db.author.bulkCreate(
+    times(5, () => ({
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName()
+    }))
+  );
+  // populate post table with dummy data
+  db.comment.bulkCreate(
+    times(5, () => ({
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraph(),
+      authorId: random(1, 5)
+    }))
+  );
   // eslint-disable-next-line prettier/prettier
+  app.listen(PORT, () => console.log(
+    // eslint-disable-next-line indent
+      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
+    PORT,
+    PORT
+  )
+  );
 });
