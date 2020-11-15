@@ -1,24 +1,27 @@
-module.exports = function(sequelize, DataTypes) {
-    var Comment = sequelize.define("Comment",{ 
-      title: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-              len: [1]
-            }
-          },
-          body: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            validate: {
-              len: [1]
-            }
-          },
-          category: {
-            type: DataTypes.STRING,
-            defaultValue: "Personal"
-          }
-        
-    });
-    return Comment
-}
+module.exports = (sequelize, DataTypes) => {
+  const Comment = sequelize.define(
+    "comment",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      // eslint-disable-next-line prettier/prettier
+      title: DataTypes.STRING,
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      }
+    },
+    {
+      freezeTableName: true
+    }
+  );
+
+  Comment.associate = models => {
+    Comment.belongsTo(models.author);
+  };
+
+  return Comment;
+};

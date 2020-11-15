@@ -1,17 +1,23 @@
-module.exports = function(sequelize, DataTypes) {
-    var Author = sequelize.define("Author", {
-      // Giving the Author model a name of type STRING
-      name: DataTypes.STRING
-    });
-  
-    Author.associate = function(models) {
-      // Associating Author with Posts
-      // When an Author is deleted, also delete any associated Posts
-      Author.hasMany(models.Comment, {
-        onDelete: "cascade"
-      });
-    };
-  
-    return Author;
+module.exports = (sequelize, DataTypes) => {
+  const Author = sequelize.define(
+    "author",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING
+    },
+    {
+      freezeTableName: true
+    }
+  );
+
+  Author.associate = models => {
+    Author.hasMany(models.post);
   };
-  
+
+  return Author;
+};
