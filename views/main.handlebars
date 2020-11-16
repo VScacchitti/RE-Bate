@@ -45,16 +45,25 @@
         <div class="card card-body">
 
             <form id="form" class="form-inline align-items-center">
-                <div class="col-md-8">
-                    <div class="input-group md-2">
-                        <input type="text" id="inputComment" class="form-control" placeholder="What do you think?">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <p class="cool-font">First Name</p>
+                        <input class="form-control" type="text" id="firstName" placeholder="Enter Your Name">
+                        <p class="cool-font"> Last Name</p>
+                        <input class="form-control" type="text" id="lastName" placeholder="Enter Your Name">
+                        <p class="cool-font">Title</p>
+                        <input class="form-control" type="text" id="title" placeholder="Enter Your Name">
+                        <br>
+                        <p class="">Comment</p>
+                        <textarea class="form-control" rows="3" id="comment-box"
+                            placeholder="What do You think?"></textarea>
+                        <button id="comment-submit" class="btn btn-lg pull-right">Submit!</button>
                     </div>
                 </div>
+            </form>
+            <div id="comment-container" class="container">Comments
 
-
-                <div class="col">
-                    <button type="submit" id="submitComment" class="btn btn-success submitComment">Submit</button>
-                </div>
+            </div>
             </form>
 
 
