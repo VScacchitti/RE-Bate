@@ -1,26 +1,36 @@
-module.exports = (sequelize, DataTypes) => {
-  const Comment = sequelize.define(
-    "comment",
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      // eslint-disable-next-line prettier/prettier
-      title: DataTypes.STRING,
-      content: {
-        type: DataTypes.TEXT,
-        allowNull: false
+module.exports = function(sequelize, DataTypes) {
+  const Comment = sequelize.define("Comment", {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1]
       }
     },
-    {
-      freezeTableName: true
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1]
+      }
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        len: [1]
+      }
     }
-  );
+  });
 
-  Comment.associate = models => {
-    Comment.belongsTo(models.author);
+  Comment.associate = function(models) {
+    // We're saying that a Post should belong to an Author
+    // A Post can't be created without an Author due to the foreign key constraint
+    Comment.belongsTo(models.Author, {
+      foreignKey: {
+        allowNull: false
+      }
+    });
   };
 
   return Comment;
