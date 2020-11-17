@@ -4,7 +4,7 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const times = require("lodash.times");
-const random = require("lodash.random");
+//const random = require("lodash.random");
 const faker = require("faker");
 const path = require("path");
 // Requiring passport as we've configured it
@@ -41,18 +41,17 @@ commentRoute(app, db);
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
   // populate author table with dummy data
-  db.author.bulkCreate(
+  db.Author.bulkCreate(
     times(5, () => ({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName()
+      name: faker.name.firstName()
     }))
   );
   // populate post table with dummy data
-  db.comment.bulkCreate(
+  db.Comment.bulkCreate(
     times(5, () => ({
+      name: faker.name.firstName(),
       title: faker.lorem.sentence(),
-      content: faker.lorem.paragraph(),
-      authorId: random(1, 5)
+      content: faker.lorem.paragraph()
     }))
   );
   // eslint-disable-next-line prettier/prettier
