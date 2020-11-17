@@ -45,4 +45,15 @@ body {
 
  .card {
    background: #7EB9D5;
+   width: 50rem;
+   margin: 0 auto;
+   float: none;
+   margin-bottom: 10px;
+   font-family: 'Roboto', sans-serif;
+  color: whitesmoke;
+ }
+
+ .r {
+  font-family: 'Roboto', sans-serif;
+  color: white;
  }
