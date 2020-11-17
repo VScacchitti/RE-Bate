@@ -1,4 +1,5 @@
 // When user clicks add-btn
+// When user clicks add-btn
 $(document).ready(() => {
   // blogContainer holds all of our posts
   const commentContainer = $("#comment-container");

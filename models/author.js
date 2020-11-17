@@ -5,8 +5,8 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Author.associate = function(models) {
-    // Associating Author with Posts
-    // When an Author is deleted, also delete any associated Posts
+    // Associating Author with Comments
+    // When an Author is deleted, also delete any associated Comments
     Author.hasMany(models.Comment, {
       onDelete: "cascade"
     });
