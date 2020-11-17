@@ -9,18 +9,18 @@ $(document).ready(() => {
 
   // Click events for the edit and delete buttons
   $(document).on("click", "button.delete", handleCommentDelete);
-  $(document).on("click", "button.edit", handleCommentEdit);
+
   let comments;
 
   // This function grabs posts from the database and updates the view
-  function getComments(author) {
-    authorId = author || "";
-    if (authorId) {
-      authorId = "/?author_id=" + authorId;
-    }
-    $.get("/api/comments", data => {
-      console.log("Comments", data);
-      comments = data;
+  function getComments() {
+    $.ajax({
+      method: "GET",
+      url: "/api/comments"
+    }).then(res => {
+      console.log(res);
+      comments = res;
+
       if (!comments || !comments.length) {
         displayEmpty();
       } else {
@@ -59,26 +59,24 @@ $(document).ready(() => {
     const newCommentCardHeading = $("<div>");
     newCommentCardHeading.addClass("card-header");
     const deleteBtn = $("<button>");
-    deleteBtn.text("x");
+    deleteBtn.text("Delete");
     deleteBtn.addClass("delete btn btn-danger");
-    const editBtn = $("<button>");
-    editBtn.text("EDIT");
-    editBtn.addClass("edit btn btn-default");
     const newCommentName = $("<h2>");
-    const newCommentTitle = $("<h2>");
+    const newCommentTitle = $("<h3>");
     const newCommentDate = $("<small>");
 
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
-    newCommentName.text(comment.name);
+    newCommentName.text(comment.name+ " ");
     newCommentTitle.text(comment.title + " ");
     newCommentBody.text(comment.content);
     const formattedDate = new Date(comment.createdAt).toLocaleDateString();
     newCommentDate.text(formattedDate);
+    newCommentName.append(newCommentName)
     newCommentTitle.append(newCommentDate);
     newCommentCardHeading.append(deleteBtn);
-    newCommentCardHeading.append(editBtn);
+    newCommentCardHeading.append(newCommentName);
     newCommentCardHeading.append(newCommentTitle);
     newCommentCardBody.append(newCommentBody);
     newCommentCard.append(newCommentCardHeading);
@@ -99,13 +97,6 @@ $(document).ready(() => {
 
   // This function figures out which post we want to edit and takes it to the
   // Appropriate url
-  function handleCommentEdit() {
-    const currentComment = $(this)
-      .parent()
-      .parent()
-      .data("comment");
-    console.log(currentComment);
-  }
 
   function newComment() {
     const newComment = {

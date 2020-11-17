@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // Requiring our models
 const db = require("../models");
 
@@ -7,6 +8,15 @@ module.exports = function(app) {
   // GET route for getting all of the posts
   // eslint-disable-next-line prettier/prettier
   app.get("/api/comments", (req, res) => db.Comment.findAll().then(result => res.json(result))
+  );
+
+  app.get("/api/comments/:name", (req, res) => db.Comment.findAll().then(result => res.json(result))
+  );
+
+  app.get("/api/comments/:title", (req, res) => db.Comment.findAll().then(result => res.json(result))
+  );
+
+  app.get("/api/comments/:content", (req, res) => db.Comment.findAll().then(result => res.json(result))
   );
 
   // Get route for retrieving a single post
