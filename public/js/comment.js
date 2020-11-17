@@ -1,6 +1,10 @@
+// When user clicks add-btn
 $(document).ready(() => {
   // blogContainer holds all of our posts
   const commentContainer = $("#comment-container");
+  const nameInput = $("#name");
+  const titleInput = $("#title");
+  const commentInput = $("#comment-box");
 
   // Click events for the edit and delete buttons
   $(document).on("click", "button.delete", handleCommentDelete);
@@ -8,8 +12,12 @@ $(document).ready(() => {
   let comments;
 
   // This function grabs posts from the database and updates the view
-  function getComments() {
-    $.get("/comments", data => {
+  function getComments(author) {
+    authorId = author || "";
+    if (authorId) {
+      authorId = "/?author_id=" + authorId;
+    }
+    $.get("/api/comments", data => {
       console.log("Comments", data);
       comments = data;
       if (!comments || !comments.length) {
@@ -21,10 +29,10 @@ $(document).ready(() => {
   }
 
   // This function does an API call to delete posts
-  function deletePost() {
+  function deletePost(id) {
     $.ajax({
       method: "DELETE",
-      url: "/comments/id"
+      url: "/api/comments/" + id
     }).then(() => {
       getComments();
     });
@@ -55,12 +63,14 @@ $(document).ready(() => {
     const editBtn = $("<button>");
     editBtn.text("EDIT");
     editBtn.addClass("edit btn btn-default");
+    const newCommentName = $("<h2>");
     const newCommentTitle = $("<h2>");
     const newCommentDate = $("<small>");
 
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
+    newCommentName.text(comment.name);
     newCommentTitle.text(comment.title + " ");
     newCommentBody.text(comment.content);
     const formattedDate = new Date(comment.createdAt).toLocaleDateString();
@@ -95,4 +105,30 @@ $(document).ready(() => {
       .data("comment");
     console.log(currentComment);
   }
+
+  function newComment() {
+    const newComment = {
+      name: nameInput.val(),
+      title: titleInput.val(),
+      content: commentInput.val()
+    };
+    console.log(newComment);
+    comment = newComment;
+
+    submitComment(comment);
+  }
+
+  function submitComment(comment) {
+    $.post("/api/comments", comment, () => {
+      window.location.reload();
+    });
+  }
+
+  $("#comment-submit").on("click", event => {
+    event.preventDefault();
+
+    newComment();
+  });
+
+  getComments();
 });
