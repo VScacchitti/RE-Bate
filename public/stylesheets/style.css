@@ -44,7 +44,7 @@ body {
  }
 
  .card {
-   background: #7EB9D5;
+   background: #536878;
    width: 50rem;
    margin: 0 auto;
    float: none;
@@ -52,6 +52,16 @@ body {
    font-family: 'Roboto', sans-serif;
    color: whitesmoke;
  }
+
+ .card.header {
+  background: #536878;
+  width: 50rem;
+  margin: 0 auto;
+  float: none;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+  color: whitesmoke;
+}
 
  .r {
   font-family: 'Roboto', sans-serif;
@@ -68,11 +78,18 @@ body {
  }
 
  .form {
-  background: #7EB9D5;
+  background: #536878;
   width: 50rem;
   margin: 0 auto;
   float: none;
   margin-bottom: 10px;
   font-family: 'Roboto', sans-serif;
   color: whitesmoke;
+}
+
+.card-header {
+  color: white;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: 'Roboto', sans-serif;
 }
