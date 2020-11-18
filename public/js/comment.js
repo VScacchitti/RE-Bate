@@ -68,12 +68,12 @@ $(document).ready(() => {
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
-    newCommentName.text(comment.name+ " ");
+    newCommentName.text(comment.name + " ");
     newCommentTitle.text(comment.title + " ");
     newCommentBody.text(comment.content);
     const formattedDate = new Date(comment.createdAt).toLocaleDateString();
     newCommentDate.text(formattedDate);
-    newCommentName.append(newCommentName)
+    newCommentName.append(newCommentName);
     newCommentTitle.append(newCommentDate);
     newCommentCardHeading.append(deleteBtn);
     newCommentCardHeading.append(newCommentName);
