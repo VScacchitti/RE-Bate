@@ -1,14 +1,18 @@
-// When user clicks add-btn
-// When user clicks add-btn
+/* eslint-disable prefer-const */
 $(document).ready(() => {
   // blogContainer holds all of our posts
   const commentContainer = $("#comment-container");
   const nameInput = $("#name");
   const titleInput = $("#title");
   const commentInput = $("#comment-box");
+  let score = 0;
 
   // Click events for the edit and delete buttons
   $(document).on("click", "button.delete", handleCommentDelete);
+
+  $(".pointUp").on("click", () => {
+    scoreUp(plusOne);
+  });
 
   let comments;
 
@@ -49,7 +53,7 @@ $(document).ready(() => {
     for (let i = 0; i < comments.length; i++) {
       commentsToAdd.push(createNewRow(comments[i]));
     }
-    commentContainer.append(commentsToAdd);
+    commentContainer.prepend(commentsToAdd);
   }
 
   // This function constructs a post's HTML
@@ -64,21 +68,34 @@ $(document).ready(() => {
     const newCommentName = $("<h2>");
     const newCommentTitle = $("<h3>");
     const newCommentDate = $("<small>");
+    const arrowup = $("<i class='fas fa-arrow-circle-up'></i>");
+    const arrowdown = $("<i class='fas fa-arrow-circle-down'></i>'");
+    // eslint-disable-next-line prefer-const
 
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
+    const upArrowHTML = $("<button class='pointUp'>");
+    const downArrowHTML = $("<button class='pointDown'>");
+    const pointUpBox = $("<h3 type='input' class='score'>");
+
     newCommentName.text(comment.name + " ");
     newCommentTitle.text(comment.title + " ");
     newCommentBody.text(comment.content);
     const formattedDate = new Date(comment.createdAt).toLocaleDateString();
     newCommentDate.text(formattedDate);
+    upArrowHTML.html(arrowup);
+    pointUpBox.text(score);
+    downArrowHTML.html(arrowdown);
     newCommentName.append(newCommentName);
     newCommentTitle.append(newCommentDate);
-    newCommentCardHeading.append(deleteBtn);
     newCommentCardHeading.append(newCommentName);
     newCommentCardHeading.append(newCommentTitle);
     newCommentCardBody.append(newCommentBody);
+    newCommentCardBody.append(upArrowHTML);
+    newCommentCardBody.append(pointUpBox);
+    newCommentCardBody.append(downArrowHTML);
+    newCommentCardBody.append(deleteBtn);
     newCommentCard.append(newCommentCardHeading);
     newCommentCard.append(newCommentCardBody);
     newCommentCard.data("comment", comment);
