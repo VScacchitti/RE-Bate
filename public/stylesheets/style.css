@@ -13,8 +13,8 @@ body {
 }
 
 .jumbotron{
-  background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
-  height:800px;
+  background-image: url("../assets/rebate.PNG");
+  height:500px;
   background-repeat: no-repeat;
   background-size: cover;
   border-bottom:1px solidcolor;
