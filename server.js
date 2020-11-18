@@ -4,13 +4,13 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const times = require("lodash.times");
+const googleTrends = require("google-trends-api");
 //const random = require("lodash.random");
 const faker = require("faker");
 const path = require("path");
 // Requiring passport as we've configured it
 const authorRoute = require("./routes/api-routes-author");
 const commentRoute = require("./routes/api-routes-comment");
-
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 8080;
 const db = require("./models");
@@ -38,6 +38,36 @@ app.get("/", (req, res) => {
 authorRoute(app, db);
 commentRoute(app, db);
 
+// eslint-disable-next-line no-unused-vars
+app.post("/api/topics", (req, res) => {
+  googleTrends
+    .realTimeTrends({
+      geo: "US",
+      category: "h"
+    })
+    .then(res => {
+      const resultsPar = JSON.parse(res);
+
+      const topicTitle = resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle.val();
+      const topicURL = resultsPar.storySummaries.trendingStories[0].articles[0].url.val();
+      const debateTopic = {
+        title: topicTitle,
+        url: topicURL
+      };
+      console.log(debateTopic);
+
+      db.Topic.create({
+        title: topicTitle,
+        URL: topicURl
+      });
+    })
+    .catch(err => {
+      console.error(err);
+    });
+
+  return debateTopic;
+});
+
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
   // populate author table with dummy data
@@ -54,6 +84,7 @@ db.sequelize.sync().then(() => {
       content: faker.lorem.paragraph()
     }))
   );
+
   // eslint-disable-next-line prettier/prettier
   app.listen(PORT, () => console.log(
       // eslint-disable-next-line indent
