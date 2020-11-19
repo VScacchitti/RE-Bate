@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 $(document).ready(() => {
   // blogContainer holds all of our posts
   const commentContainer = $("#comment-container");
@@ -12,9 +11,7 @@ $(document).ready(() => {
   // Click events for the edit and delete buttons
   $(document).on("click", "button.delete", handleCommentDelete);
 
-  $(".pointUp").on("click", () => {
-    scoreUp(plusOne);
-  });
+  //score up
 
   let comments;
 
@@ -54,11 +51,11 @@ $(document).ready(() => {
       console.log(res.URL);
       topic.text(res.topic);
       topicURL.text(res.URL);
+      topicURL.attr("href", "res.URL");
     });
   }
 
   getTopic();
-
   // Getting the initial list of posts
   getComments();
   // InitializeRows handles appending all of our constructed post HTML inside
@@ -84,25 +81,28 @@ $(document).ready(() => {
     const newCommentName = $("<h2>");
     const newCommentTitle = $("<h3>");
     const newCommentDate = $("<small>");
-    const arrowup = $("<i class='fas fa-arrow-circle-up'></i>");
-    const arrowdown = $("<i class='fas fa-arrow-circle-down'></i>'");
-    // eslint-disable-next-line prefer-const
-
+    const newArrowIconUP = $("<i>");
+    newArrowIconUP.addClass("fas fa-arrow-circle-up");
+    const newArrowIconDown = $("<i>");
+    newArrowIconDown.addClass("fas fa-arrow-circle-down");
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
-    const upArrowHTML = $("<button class='pointUp'>");
-    const downArrowHTML = $("<button class='pointDown'>");
-    const pointUpBox = $("<h3 type='input' class='score'>");
+    const upArrowHTML = $("<button>");
+    upArrowHTML.addClass("pointUp");
+    const downArrowHTML = $("<button>");
+    downArrowHTML.addClass("pointDown");
+    const pointUpBox = $("<div>");
+    pointUpBox.addClass("score");
 
     newCommentName.text(comment.name + " ");
     newCommentTitle.text(comment.title + " ");
     newCommentBody.text(comment.content);
     const formattedDate = new Date(comment.createdAt).toLocaleDateString();
     newCommentDate.text(formattedDate);
-    upArrowHTML.html(arrowup);
+    upArrowHTML.html(newArrowIconUP);
     pointUpBox.text(score);
-    downArrowHTML.html(arrowdown);
+    downArrowHTML.html(newArrowIconDown);
     newCommentName.append(newCommentName);
     newCommentTitle.append(newCommentDate);
     newCommentCardHeading.append(newCommentName);
@@ -119,7 +119,6 @@ $(document).ready(() => {
   }
 
   // This function figures out which post we want to delete and then calls
-  // deletePost
   function handleCommentDelete() {
     const currentComment = $(this)
       .parent()
@@ -155,5 +154,17 @@ $(document).ready(() => {
     newComment();
   });
 
-  getComments();
+  $(document).on("click", "button.pointUp", event => {
+    event.preventDefault();
+
+    score += 1;
+    $(".score").text(score);
+  });
+
+  $(document).on("click", "button.pointDown", event => {
+    event.preventDefault();
+
+    score -= 1;
+    $(".score").text(score);
+  });
 });
