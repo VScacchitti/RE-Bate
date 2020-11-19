@@ -9,11 +9,14 @@ const googleTrends = require("google-trends-api");
 const faker = require("faker");
 const path = require("path");
 // Requiring passport as we've configured it
-const authorRoute = require("./routes/api-routes-author");
 const commentRoute = require("./routes/api-routes-comment");
+const trendRoute = require("./routes/api-routes-topics");
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 8080;
 const db = require("./models");
+let topicTitle;
+let topicUrL;
+let debateTopic;
 
 // Creating express app and configuring middleware needed for authentication
 const app = express();
@@ -35,50 +38,44 @@ app.get("/", (req, res) => {
 });
 
 //Routes
-authorRoute(app, db);
 commentRoute(app, db);
+trendRoute(app, db);
 
-// eslint-disable-next-line no-unused-vars
-app.post("/api/topics", (req, res) => {
+function getTrend() {
   googleTrends
     .realTimeTrends({
       geo: "US",
       category: "h"
     })
-    .then(res => {
-      const resultsPar = JSON.parse(res);
+    .then(results => {
+      const resultsPar = JSON.parse(results);
 
-      const topicTitle = resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle.val();
-      const topicURL = resultsPar.storySummaries.trendingStories[0].articles[0].url.val();
-      const debateTopic = {
+      topicTitle =
+        resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle;
+      topicUrL = resultsPar.storySummaries.trendingStories[0].articles[0].url;
+      debateTopic = {
         title: topicTitle,
-        url: topicURL
+        URL: topicUrL
       };
       console.log(debateTopic);
 
       db.Topic.create({
-        title: topicTitle,
-        URL: topicURl
+        topic: topicTitle,
+        URL: topicUrL
       });
     })
     .catch(err => {
       console.error(err);
     });
-
-  return debateTopic;
-});
+}
+getTrend();
 
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
   // populate author table with dummy data
-  db.Author.bulkCreate(
-    times(5, () => ({
-      name: faker.name.firstName()
-    }))
-  );
   // populate post table with dummy data
   db.Comment.bulkCreate(
-    times(5, () => ({
+    times(1, () => ({
       name: faker.name.firstName(),
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraph()
