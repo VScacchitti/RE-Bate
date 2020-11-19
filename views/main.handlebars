@@ -18,25 +18,27 @@
 
 <div class="card">
     <div class="card-header">
-        Today's Topic
+        <h1>Today's Topic</h1>
     </div>
     <div class="card-body">
-        <h5 id="topicTitle" class="card-title">res.render()</h5>
-        <p id="topicURL" class="card-text">Article URL</p>
+        <h5 id="topicTitle" class="card-title"></h5>
+        <a id="topicTag" href="">
+            <p id="topicURL" class="card-text"></p>
+        </a>
     </div>
+    <button id="refreshTopic">Click to see if a new topic is available!</button>
 </div>
 
 <div class="container">
     <div class="row text-center bg-light">
         <div class="card card-body" id="bugfix">
-
             <form id="form" class="form-inline align-items-center">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <p class="cool-font">Name</p>
                         <input class="form-control" type="text" id="name" placeholder="Enter Your Name">
                         <p class="cool-font">Title</p>
-                        <input class="form-control" type="text" id="title" placeholder="Enter Your Name">
+                        <input class="form-control" type="text" id="title" placeholder="Enter Comment Title">
                         <br>
                         <p class="">Comment</p>
                         <textarea class="form-control" rows="3" id="comment-box"

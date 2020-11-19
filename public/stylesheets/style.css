@@ -1,87 +1,94 @@
 body {
-  background: linear-gradient(to right, #D3D3D3, #BDBDBD, #9E9E9E, #7D7D7D, #696969);
+  background: linear-gradient(
+    to right,
+    #d3d3d3,
+    #bdbdbd,
+    #9e9e9e,
+    #7d7d7d,
+    #696969
+  );
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .navbar {
   color: white;
   font-weight: bolder;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-.jumbotron{
+.jumbotron {
   background-image: url("../assets/rebate.PNG");
-  height:500px;
+  height: 500px;
   background-repeat: no-repeat;
   background-size: cover;
-  border-bottom:1px solidcolor;
+  border-bottom: 1px solidcolor;
   color: white;
   font-weight: bolder;
-  font-family: 'Roboto', sans-serif;
- }
- .jumbotron .container {
-     position:relative;
-     top:50px;
- }
+  font-family: "Roboto", sans-serif;
+}
+.jumbotron .container {
+  position: relative;
+  top: 50px;
+}
 
- .btn-info{
-   background: #A9A9A9;
-   font-family: 'Roboto', sans-serif;
-   color: black;
-   border-color: black;
-   width: 50%;
- }
+.btn-info {
+  background: #a9a9a9;
+  font-family: "Roboto", sans-serif;
+  color: black;
+  border-color: black;
+  width: 50%;
+}
 
- .btn-success {
+.btn-success {
   background: #696969;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: whitesmoke;
   font-style: bold;
   border-color: black;
- }
+}
 
- .card {
-   background: #536878;
-   width: 50rem;
-   margin: 0 auto;
-   float: none;
-   margin-bottom: 10px;
-   font-family: 'Roboto', sans-serif;
-   color: whitesmoke;
- }
-
- .card.header {
+.card {
   background: #536878;
   width: 50rem;
   margin: 0 auto;
   float: none;
   margin-bottom: 10px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: whitesmoke;
 }
 
- .r {
-  font-family: 'Roboto', sans-serif;
-  color: white;
- }
-
- #comment-container{
+.card.header {
+  background: #536878;
   width: 50rem;
   margin: 0 auto;
   float: none;
   margin-bottom: 10px;
-  font-family: 'Roboto', sans-serif;
-  color: black;
- }
+  font-family: "Roboto", sans-serif;
+  color: whitesmoke;
+}
 
- .form {
+.r {
+  font-family: "Roboto", sans-serif;
+  color: white;
+}
+
+#comment-container {
+  width: 50rem;
+  margin: 0 auto;
+  float: none;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif;
+  color: black;
+}
+
+.form {
   background: #536878;
   width: 50rem;
   float: none;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: whitesmoke;
 }
 
@@ -89,16 +96,19 @@ body {
   color: white;
   font-weight: bold;
   font-size: 40px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .btn-lg {
-  background: #A4B2B9;
+  background: #a4b2b9;
   margin-top: 10px;
   border-color: black;
   font-weight: bold;
 }
 
+#topicURL {
+  color: aliceblue;
+}
 #bugfix {
   margin-bottom: 0;
 }
