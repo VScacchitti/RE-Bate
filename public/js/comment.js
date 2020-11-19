@@ -5,6 +5,8 @@ $(document).ready(() => {
   const nameInput = $("#name");
   const titleInput = $("#title");
   const commentInput = $("#comment-box");
+  const topic = $("#topicTitle");
+  const topicURL = $("#topicURL");
   let score = 0;
 
   // Click events for the edit and delete buttons
@@ -42,6 +44,20 @@ $(document).ready(() => {
       getComments();
     });
   }
+
+  function getTopic() {
+    $.ajax({
+      method: "GET",
+      url: "/api/topics/1"
+    }).then(res => {
+      console.log(res.topic);
+      console.log(res.URL);
+      topic.text(res.topic);
+      topicURL.text(res.URL);
+    });
+  }
+
+  getTopic();
 
   // Getting the initial list of posts
   getComments();
