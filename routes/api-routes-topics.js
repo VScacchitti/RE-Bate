@@ -1,44 +1,33 @@
 const db = require("../models");
 
 module.exports = function(app) {
-  app.get("/api/authors", (req, res) => {
+  app.get("/api/topics", (req, res) => {
     // Here we add an "include" property to our options in our findAll query
     // We set the value to an array of the models we want to include in a left outer join
     // In this case, just db.Post
-    db.Author.findAll({
+    db.Topic.findAll({
       include: [db.Comment]
     }).then(dbAuthor => {
       res.json(dbAuthor);
     });
   });
 
-  app.get("/api/authors/:id", (req, res) => {
+  app.get("/api/topics/:id", (req, res) => {
     // Here we add an "include" property to our options in our findOne query
     // We set the value to an array of the models we want to include in a left outer join
     // In this case, just db.Post
-    db.Author.findOne({
-      where: {
-        id: req.params.id
-      },
-      include: [db.Comment]
-    }).then(dbAuthor => {
-      res.json(dbAuthor);
-    });
-  });
-
-  app.post("/api/authors", (req, res) => {
-    db.Author.create(req.body).then(dbAuthor => {
-      res.json(dbAuthor);
-    });
-  });
-
-  app.delete("/api/authors/:id", (req, res) => {
-    db.Author.destroy({
+    db.Topic.findOne({
       where: {
         id: req.params.id
       }
-    }).then(dbAuthor => {
-      res.json(dbAuthor);
+    }).then(dbTopic => {
+      res.json(dbTopic);
+    });
+  });
+
+  app.post("/api/topics", (req, res) => {
+    db.Topic.create(req.body).then(dbTopic => {
+      res.json(dbTopic);
     });
   });
 };
