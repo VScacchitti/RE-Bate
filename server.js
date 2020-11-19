@@ -1,12 +1,9 @@
-/* eslint-disable indent */
 // Requiring necessary npm packages
 const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
-const times = require("lodash.times");
 const googleTrends = require("google-trends-api");
 //const random = require("lodash.random");
-const faker = require("faker");
 const path = require("path");
 // Requiring passport as we've configured it
 const commentRoute = require("./routes/api-routes-comment");
@@ -120,23 +117,10 @@ function updateTrend() {
       console.error(err);
     });
 }
-
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
-  // populate author table with dummy data
-  // populate post table with dummy data
-  db.Comment.bulkCreate(
-    times(1, () => ({
-      name: faker.name.firstName(),
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraph()
-    }))
-  );
-
-  // eslint-disable-next-line prettier/prettier
   app.listen(PORT, () => console.log(
-      // eslint-disable-next-line indent
-      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
+    "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
       PORT,
       PORT
     )

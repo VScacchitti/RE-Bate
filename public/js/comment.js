@@ -148,6 +148,14 @@ $(document).ready(() => {
     });
   }
 
+  function displayEmpty() {
+    commentContainer.empty();
+    const messageH2 = $("<h2>");
+    messageH2.css({ "text-align": "center", "margin-top": "30px" });
+    messageH2.html("Start the Debate! Enter a Comment!");
+    commentContainer.append(messageH2);
+  }
+
   $("#comment-submit").on("click", event => {
     event.preventDefault();
 
