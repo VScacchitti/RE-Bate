@@ -1,3 +1,5 @@
+/* eslint-disable n
+
 /* eslint-disable prefer-const */
 $(document).ready(() => {
   // blogContainer holds all of our posts
@@ -5,6 +7,8 @@ $(document).ready(() => {
   const nameInput = $("#name");
   const titleInput = $("#title");
   const commentInput = $("#comment-box");
+  const topicTitle = $("#topicTitle");
+  const topicURL = $("#topicURL");
   let score = 0;
 
   // Click events for the edit and delete buttons
@@ -32,6 +36,18 @@ $(document).ready(() => {
       }
     });
   }
+
+  function getTopics() {
+    $.ajax({
+      method: "GET",
+      url: "/api/topics"
+    }).then(res => {
+      console.log(res);
+      topic = res;
+
+    });
+  }
+  getTopics();
 
   // This function does an API call to delete posts
   function deletePost(id) {

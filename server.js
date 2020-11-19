@@ -9,8 +9,8 @@ const googleTrends = require("google-trends-api");
 const faker = require("faker");
 const path = require("path");
 // Requiring passport as we've configured it
-const authorRoute = require("./routes/api-routes-author");
 const commentRoute = require("./routes/api-routes-comment");
+const trendRoute = require("./routes/api-routes-topics");
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 8080;
 const db = require("./models");
@@ -35,50 +35,52 @@ app.get("/", (req, res) => {
 });
 
 //Routes
-authorRoute(app, db);
 commentRoute(app, db);
+trendRoute(app, db);
 
-// eslint-disable-next-line no-unused-vars
-app.post("/api/topics", (req, res) => {
+function getTrend() {
   googleTrends
     .realTimeTrends({
       geo: "US",
       category: "h"
     })
-    .then(res => {
-      const resultsPar = JSON.parse(res);
-
-      const topicTitle = resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle.val();
-      const topicURL = resultsPar.storySummaries.trendingStories[0].articles[0].url.val();
+    .then(results => {
+      const resultsPar = JSON.parse(results);
+      //var resultsStr = JSON.stringify(results);
+      // console.log(results)
+      //console.log(resultsStr)
+      const topicTitle =
+        resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle;
+      const topicUrL =
+        resultsPar.storySummaries.trendingStories[0].articles[0].url;
       const debateTopic = {
         title: topicTitle,
-        url: topicURL
+        URL: topicUrL
       };
       console.log(debateTopic);
-
-      db.Topic.create({
-        title: topicTitle,
-        URL: topicURl
-      });
     })
     .catch(err => {
       console.error(err);
     });
+}
+getTrend();
 
-  return debateTopic;
+app.post("/api/topics", (req, res) => {
+  db.Topic.create({
+    topic: debateTopic.title,
+    URL: debateTopic.URL
+  }).then(dbTopic => {
+    console.log(dbTopic);
+    res.json(dbTopic);
+  });
 });
 
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
   // populate author table with dummy data
-  db.Author.bulkCreate(
-    times(5, () => ({
-      name: faker.name.firstName()
-    }))
-  );
   // populate post table with dummy data
   db.Comment.bulkCreate(
-    times(5, () => ({
+    times(1, () => ({
       name: faker.name.firstName(),
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraph()
