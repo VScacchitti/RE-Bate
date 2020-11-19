@@ -41,6 +41,22 @@ app.get("/", (req, res) => {
 commentRoute(app, db);
 trendRoute(app, db);
 
+//Gets topic from DB and inserts
+getTrend();
+
+// Finds topic to update
+db.Topic.findOne({
+  where: {
+    id: 1
+  }
+}).then(dbTopic => {
+  if (dbTopic) {
+    updateTrend();
+  } else {
+    getTrend();
+  }
+});
+
 function getTrend() {
   googleTrends
     .realTimeTrends({
@@ -69,6 +85,41 @@ function getTrend() {
     });
 }
 getTrend();
+
+function updateTrend() {
+  googleTrends
+    .realTimeTrends({
+      geo: "US",
+      category: "h"
+    })
+    .then(results => {
+      const resultsPar = JSON.parse(results);
+
+      topicTitle =
+        resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle;
+      topicUrL = resultsPar.storySummaries.trendingStories[0].articles[0].url;
+      debateTopic = {
+        title: topicTitle,
+        URL: topicUrL
+      };
+      console.log(debateTopic);
+
+      db.Topic.update(
+        {
+          topic: topicTitle,
+          URL: topicUrL
+        },
+        {
+          where: {
+            id: 1
+          }
+        }
+      );
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
 
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
