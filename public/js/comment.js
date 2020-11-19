@@ -6,6 +6,7 @@ $(document).ready(() => {
   const commentInput = $("#comment-box");
   const topic = $("#topicTitle");
   const topicURL = $("#topicURL");
+  const topicTag = $("#topicTag");
   let score = 0;
 
   // Click events for the edit and delete buttons
@@ -33,7 +34,7 @@ $(document).ready(() => {
   }
 
   // This function does an API call to delete posts
-  function deletePost(id) {
+  function deleteComment(id) {
     $.ajax({
       method: "DELETE",
       url: "/api/comments/" + id
@@ -41,7 +42,7 @@ $(document).ready(() => {
       getComments();
     });
   }
-
+  //function to get topic
   function getTopic() {
     $.ajax({
       method: "GET",
@@ -51,7 +52,22 @@ $(document).ready(() => {
       console.log(res.URL);
       topic.text(res.topic);
       topicURL.text(res.URL);
-      topicURL.attr("href", "res.URL");
+      topicTag.attr("target", "_blank");
+      topicTag.attr("href", `${res.URL}`);
+    });
+  }
+  //function to refresh topic
+  function refreshTopic() {
+    $.ajax({
+      method: "GET",
+      url: "/api/topics/1"
+    }).then(res => {
+      console.log(res.topic);
+      console.log(res.URL);
+      topic.text(res.topic);
+      topicURL.text(res.URL);
+      topicTAG.attr("target", "_blank");
+      topicTAG.attr("href", `${res.URL}`);
     });
   }
 
@@ -118,18 +134,16 @@ $(document).ready(() => {
     return newCommentCard;
   }
 
-  // This function figures out which post we want to delete and then calls
+  // This function figures out which comment we want to delete
   function handleCommentDelete() {
     const currentComment = $(this)
       .parent()
       .parent()
       .data("comment");
-    deletePost(currentComment.id);
+    deleteComment(currentComment.id);
   }
 
-  // This function figures out which post we want to edit and takes it to the
-  // Appropriate url
-
+  //Creates a new comment to submit to the Database
   function newComment() {
     const newComment = {
       name: nameInput.val(),
@@ -148,20 +162,28 @@ $(document).ready(() => {
     });
   }
 
+  //Displays message if comment container is empty
   function displayEmpty() {
     commentContainer.empty();
     const messageH2 = $("<h2>");
     messageH2.css({ "text-align": "center", "margin-top": "30px" });
-    messageH2.html("Start the Debate! Enter a Comment!");
+    messageH2.html("Start the Debate! Enter a Comment!`");
     commentContainer.append(messageH2);
   }
 
+  //submit comment
   $("#comment-submit").on("click", event => {
     event.preventDefault();
 
     newComment();
   });
 
+  //refresh topic
+  $("#refreshTopic").on("click", () => {
+    refreshTopic();
+  });
+
+  //point up function
   $(document).on("click", "button.pointUp", event => {
     event.preventDefault();
 

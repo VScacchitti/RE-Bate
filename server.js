@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable indent */
 // Requiring necessary npm packages
 const express = require("express");
 const exphbs = require("express-handlebars");
@@ -81,6 +83,7 @@ function getTrend() {
       console.error(err);
     });
 }
+
 getTrend();
 
 function updateTrend() {
