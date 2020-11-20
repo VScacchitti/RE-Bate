@@ -13,9 +13,6 @@ const trendRoute = require("./routes/api-routes-topics");
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 8080;
 const db = require("./models");
-let topicTitle;
-let topicUrL;
-let debateTopic;
 
 // Creating express app and configuring middleware needed for authentication
 const app = express();
@@ -44,17 +41,6 @@ trendRoute(app, db);
 getTrend();
 
 // Finds topic to update
-db.Topic.findOne({
-  where: {
-    id: 1
-  }
-}).then(dbTopic => {
-  if (dbTopic) {
-    updateTrend();
-  } else {
-    getTrend();
-  }
-});
 
 function getTrend() {
   googleTrends
@@ -65,18 +51,31 @@ function getTrend() {
     .then(results => {
       const resultsPar = JSON.parse(results);
 
-      topicTitle =
+      topicTitle1 =
         resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle;
-      topicUrL = resultsPar.storySummaries.trendingStories[0].articles[0].url;
-      debateTopic = {
-        title: topicTitle,
-        URL: topicUrL
-      };
-      console.log(debateTopic);
+      topicUrL1 = resultsPar.storySummaries.trendingStories[0].articles[0].url;
+
+      topicTitle2 =
+      resultsPar.storySummaries.trendingStories[1].articles[1].articleTitle;
+    topicUrL2 = resultsPar.storySummaries.trendingStories[1].articles[1].url;
+
+    topicTitle3 =
+    resultsPar.storySummaries.trendingStories[2].articles[2].articleTitle;
+  topicUrL3 = resultsPar.storySummaries.trendingStories[2].articles[2].url;
 
       db.Topic.create({
-        topic: topicTitle,
-        URL: topicUrL
+        topic: topicTitle1,
+        URL: topicUrL1
+      });
+
+      db.Topic.create({
+        topic: topicTitle2,
+        URL: topicUrL2
+      });
+
+      db.Topic.create({
+        topic: topicTitle3,
+        URL: topicUrL3
       });
     })
     .catch(err => {
@@ -86,40 +85,6 @@ function getTrend() {
 
 getTrend();
 
-function updateTrend() {
-  googleTrends
-    .realTimeTrends({
-      geo: "US",
-      category: "h"
-    })
-    .then(results => {
-      const resultsPar = JSON.parse(results);
-
-      topicTitle =
-        resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle;
-      topicUrL = resultsPar.storySummaries.trendingStories[0].articles[0].url;
-      debateTopic = {
-        title: topicTitle,
-        URL: topicUrL
-      };
-      console.log(debateTopic);
-
-      db.Topic.update(
-        {
-          topic: topicTitle,
-          URL: topicUrL
-        },
-        {
-          where: {
-            id: 1
-          }
-        }
-      );
-    })
-    .catch(err => {
-      console.error(err);
-    });
-}
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => console.log(

@@ -7,7 +7,7 @@ $(document).ready(() => {
   const topic = $("#topicTitle");
   const topicURL = $("#topicURL");
   const topicTag = $("#topicTag");
-  let score = 0;
+  const score = 0;
 
   // Click events for the edit and delete buttons
   $(document).on("click", "button.delete", handleCommentDelete);
@@ -43,7 +43,7 @@ $(document).ready(() => {
     });
   }
   //function to get topic
-  function getTopic() {
+  function getTopic1() {
     $.ajax({
       method: "GET",
       url: "/api/topics/1"
@@ -56,22 +56,37 @@ $(document).ready(() => {
       topicTag.attr("href", `${res.URL}`);
     });
   }
-  //function to refresh topic
-  function refreshTopic() {
+
+  function getTopic2() {
     $.ajax({
       method: "GET",
-      url: "/api/topics/1"
+      url: "/api/topics/2"
     }).then(res => {
       console.log(res.topic);
       console.log(res.URL);
       topic.text(res.topic);
       topicURL.text(res.URL);
-      topicTAG.attr("target", "_blank");
-      topicTAG.attr("href", `${res.URL}`);
+      topicTag.attr("target", "_blank");
+      topicTag.attr("href", `${res.URL}`);
     });
   }
 
-  getTopic();
+  function getTopic3() {
+    $.ajax({
+      method: "GET",
+      url: "/api/topics/3"
+    }).then(res => {
+      console.log(res.topic);
+      console.log(res.URL);
+      topic.text(res.topic);
+      topicURL.text(res.URL);
+      topicTag.attr("target", "_blank");
+      topicTag.attr("href", `${res.URL}`);
+    });
+  }
+  //function to refresh topic
+
+  getTopic1();
   // Getting the initial list of posts
   getComments();
   // InitializeRows handles appending all of our constructed post HTML inside
@@ -178,13 +193,27 @@ $(document).ready(() => {
     newComment();
   });
 
-  //refresh topic
-  $("#refreshTopic").on("click", () => {
-    refreshTopic();
+  //Topic1
+  $("#Topic1").on("click", () => {
+    getTopic1();
   });
 
+  $("#Topic2").on("click", () => {
+    getTopic2();
+  });
+
+  $("#Topic3").on("click", () => {
+    getTopic3();
+  });
+
+  $(".pointUp").on("click", event => {
+    event.preventDefault();
+    $("div > .car").each(function(index) {
+      console.log(`${index}: ${this.id}`);
+    });
+  });
   //point up function
-  $(document).on("click", "button.pointUp", event => {
+  /*$(document).on("click", "button.pointUp", event => {
     event.preventDefault();
 
     score += 1;
@@ -196,5 +225,5 @@ $(document).ready(() => {
 
     score -= 1;
     $(".score").text(score);
-  });
+  });*/
 });
