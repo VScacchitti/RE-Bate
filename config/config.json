@@ -1,14 +1,14 @@
 {
   "development": {
-    "username": "root",
-    "password": "Fall2020!!",
+    "username": "test_user",
+    "password": "password",
     "database": "rebateDB",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": "Fall2020!!",
+    "username": "test_user",
+    "password": "password",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"

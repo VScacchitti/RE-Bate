@@ -128,3 +128,7 @@ body {
 .comment {
   font-size: 24px;
 }
+
+#form {
+  margin-left: 75px;
+}
