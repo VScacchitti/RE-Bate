@@ -4,11 +4,10 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 const googleTrends = require("google-trends-api");
-//const random = require("lodash.random");
 const path = require("path");
-// Requiring passport as we've configured it
 const commentRoute = require("./routes/api-routes-comment");
 const trendRoute = require("./routes/api-routes-topics");
+
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 8080;
 const db = require("./models");
@@ -19,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
 app.set("view engine", "handlebars");
+
 //Sets handlebars configurations (we will go through them later on)
 app.engine(
   "handlebars",
