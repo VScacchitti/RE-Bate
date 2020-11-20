@@ -5,10 +5,8 @@ module.exports = function(app) {
     // Here we add an "include" property to our options in our findAll query
     // We set the value to an array of the models we want to include in a left outer join
     // In this case, just db.Post
-    db.Topic.findAll({
-      include: [db.Comment]
-    }).then(dbAuthor => {
-      res.json(dbAuthor);
+    db.Topic.findAll({}).then(dbTopic => {
+      res.json(dbTopic);
     });
   });
 
