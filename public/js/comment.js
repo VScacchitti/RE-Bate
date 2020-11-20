@@ -7,16 +7,11 @@ $(document).ready(() => {
   const topic = $("#topicTitle");
   const topicURL = $("#topicURL");
   const topicTag = $("#topicTag");
-  const score = 0;
-
-  // Click events for the edit and delete buttons
+  // Click events for the delete buttons
   $(document).on("click", "button.delete", handleCommentDelete);
-
-  //score up
-
+  //making comment a global variable
   let comments;
-
-  // This function grabs posts from the database and updates the view
+  // This function grabs comments from the database and updates the view
   function getComments() {
     $.ajax({
       method: "GET",
@@ -24,7 +19,6 @@ $(document).ready(() => {
     }).then(res => {
       console.log(res);
       comments = res;
-
       if (!comments || !comments.length) {
         displayEmpty();
       } else {
@@ -32,8 +26,7 @@ $(document).ready(() => {
       }
     });
   }
-
-  // This function does an API call to delete posts
+  // This function does an API call to delete comments
   function deleteComment(id) {
     $.ajax({
       method: "DELETE",
@@ -42,7 +35,7 @@ $(document).ready(() => {
       getComments();
     });
   }
-  //function to get topic
+  //function to get topic1
   function getTopic1() {
     $.ajax({
       method: "GET",
@@ -56,6 +49,7 @@ $(document).ready(() => {
       topicTag.attr("href", `${res.URL}`);
     });
   }
+  //function to get topic2
 
   function getTopic2() {
     $.ajax({
@@ -70,7 +64,7 @@ $(document).ready(() => {
       topicTag.attr("href", `${res.URL}`);
     });
   }
-
+  //function to get topic3
   function getTopic3() {
     $.ajax({
       method: "GET",
@@ -84,13 +78,11 @@ $(document).ready(() => {
       topicTag.attr("href", `${res.URL}`);
     });
   }
-  //function to refresh topic
-
+  //function to get first topic on page load
   getTopic1();
-  // Getting the initial list of posts
+  // Getting the initial list of Comments
   getComments();
-  // InitializeRows handles appending all of our constructed post HTML inside
-  // blogContainer
+  // InitializeRows handles appending all of our constructed comment HTML inside
   function initializeRows() {
     commentContainer.empty();
     const commentsToAdd = [];
@@ -99,8 +91,7 @@ $(document).ready(() => {
     }
     commentContainer.prepend(commentsToAdd);
   }
-
-  // This function constructs a post's HTML
+  // This function constructs a coments's HTML
   function createNewRow(comment) {
     const newCommentCard = $("<div>");
     newCommentCard.addClass("card");
@@ -112,44 +103,25 @@ $(document).ready(() => {
     const newCommentName = $("<h2>");
     const newCommentTitle = $("<h3>");
     const newCommentDate = $("<small>");
-    const newArrowIconUP = $("<i>");
-    newArrowIconUP.addClass("fas fa-arrow-circle-up");
-    const newArrowIconDown = $("<i>");
-    newArrowIconDown.addClass("fas fa-arrow-circle-down");
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
-    newCommentBody.addClass("comment")
-    const upArrowHTML = $("<button>");
-    upArrowHTML.addClass("pointUp");
-    const downArrowHTML = $("<button>");
-    downArrowHTML.addClass("pointDown");
-    const pointUpBox = $("<div>");
-    pointUpBox.addClass("score");
-
     newCommentName.text(comment.name + " ");
     newCommentTitle.text(comment.title + " ");
     newCommentBody.text(comment.content);
     const formattedDate = new Date(comment.createdAt).toLocaleDateString();
     newCommentDate.text(formattedDate);
-    upArrowHTML.html(newArrowIconUP);
-    pointUpBox.text(score);
-    downArrowHTML.html(newArrowIconDown);
     newCommentName.append(newCommentName);
     newCommentTitle.append(newCommentDate);
     newCommentCardHeading.append(newCommentName);
     newCommentCardHeading.append(newCommentTitle);
     newCommentCardBody.append(newCommentBody);
-    newCommentCardBody.append(upArrowHTML);
-    newCommentCardBody.append(pointUpBox);
-    newCommentCardBody.append(downArrowHTML);
     newCommentCardBody.append(deleteBtn);
     newCommentCard.append(newCommentCardHeading);
     newCommentCard.append(newCommentCardBody);
     newCommentCard.data("comment", comment);
     return newCommentCard;
   }
-
   // This function figures out which comment we want to delete
   function handleCommentDelete() {
     const currentComment = $(this)
@@ -168,16 +140,14 @@ $(document).ready(() => {
     };
     console.log(newComment);
     comment = newComment;
-
     submitComment(comment);
   }
-
+  //Submits a new comment and posts it to the api, then refreshes the page with new comment.
   function submitComment(comment) {
     $.post("/api/comments", comment, () => {
       window.location.reload();
     });
   }
-
   //Displays message if comment container is empty
   function displayEmpty() {
     commentContainer.empty();
@@ -186,15 +156,12 @@ $(document).ready(() => {
     messageH2.html("Start the Debate! Enter a Comment!`");
     commentContainer.append(messageH2);
   }
-
-  //submit comment
+  //submit comment click events
   $("#comment-submit").on("click", event => {
     event.preventDefault();
-
     newComment();
   });
-
-  //Topic1
+  //Changes topic
   $("#Topic1").on("click", () => {
     getTopic1();
   });
@@ -206,25 +173,4 @@ $(document).ready(() => {
   $("#Topic3").on("click", () => {
     getTopic3();
   });
-
-  $(".upPoint").click(function() {
-    score += 1;
-    $(this)
-      .find(".score")
-      .text(score);
-  });
-  //point up function
-  /*$(document).on("click", "button.pointUp", event => {
-    event.preventDefault();
-
-    score += 1;
-    $(".score").text(score);
-  });
-
-  $(document).on("click", "button.pointDown", event => {
-    event.preventDefault();
-
-    score -= 1;
-    $(".score").text(score);
-  });*/
 });
