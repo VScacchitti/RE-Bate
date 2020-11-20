@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable indent */
 // Requiring necessary npm packages
 const express = require("express");
@@ -51,17 +50,20 @@ function getTrend() {
     .then(results => {
       const resultsPar = JSON.parse(results);
 
-      topicTitle1 =
+      const topicTitle1 =
         resultsPar.storySummaries.trendingStories[0].articles[0].articleTitle;
-      topicUrL1 = resultsPar.storySummaries.trendingStories[0].articles[0].url;
+      const topicUrL1 =
+        resultsPar.storySummaries.trendingStories[0].articles[0].url;
 
-      topicTitle2 =
-      resultsPar.storySummaries.trendingStories[1].articles[1].articleTitle;
-    topicUrL2 = resultsPar.storySummaries.trendingStories[1].articles[1].url;
+      const topicTitle2 =
+        resultsPar.storySummaries.trendingStories[1].articles[1].articleTitle;
+      const topicUrL2 =
+        resultsPar.storySummaries.trendingStories[1].articles[1].url;
 
-    topicTitle3 =
-    resultsPar.storySummaries.trendingStories[2].articles[2].articleTitle;
-  topicUrL3 = resultsPar.storySummaries.trendingStories[2].articles[2].url;
+      const topicTitle3 =
+        resultsPar.storySummaries.trendingStories[2].articles[2].articleTitle;
+      const topicUrL3 =
+        resultsPar.storySummaries.trendingStories[2].articles[2].url;
 
       db.Topic.create({
         topic: topicTitle1,
@@ -83,12 +85,11 @@ function getTrend() {
     });
 }
 
-getTrend();
-
 // Syncing our database and logging a message to the user upon success
 db.sequelize.sync().then(() => {
+  // eslint-disable-next-line prettier/prettier
   app.listen(PORT, () => console.log(
-    "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
+      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
       PORT,
       PORT
     )

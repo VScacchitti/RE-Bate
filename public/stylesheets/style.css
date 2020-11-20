@@ -109,6 +109,23 @@ body {
 #topicURL {
   color: aliceblue;
 }
+.topicDiv {
+  padding-bottom: 30px;
+}
+
+.topicButton {
+  padding: 5px;
+  margin: 20px;
+}
+
+.style {
+  background-color: rgba(0, 30, 30, 0.5);
+  font-weight: bolder;
+}
 #bugfix {
   margin-bottom: 0;
+}
+
+.comment {
+  font-size: 24px;
 }

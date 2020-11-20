@@ -8,15 +8,16 @@
     </div>
 </nav>
 <!--BootStrap Jumbotron-->
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Re: bate</h1>
-        <p class="lead">Welcome to Re: bate! The online forum for letting your thoughts be heard. Read up on the topic
+<div class="jumbotron jumbotron-fluid text-center">
+    <div class="container style">
+        <h1 class="display-4 ">Re: bate</h1>
+        <p class="lead">Welcome to Re: bate! The online forum for letting your thoughts be heard. Read up on the
+            topic
             of the day and leave your thoughts!</p>
     </div>
 </div>
 
-<div class="card">
+<div class="card text-center topicDiv">
     <div class="card-header">
         <h1>Today's Topic</h1>
     </div>
@@ -26,17 +27,21 @@
             <p id="topicURL" class="card-text"></p>
         </a>
     </div>
-    <button id="Topic1">Debate Topic One!</button>
-    <button id="Topic2">Debate Topic Two!</button>
-    <button id="Topic3">Debate Topic Three!</button>
+    <div>
+        <button id="Topic1" class="btn btn-outline-light btn-lg topicButton">Click For Topic One!</button>
+        <button id="Topic2" class="btn btn-outline-light btn-lg topicButton">Click For Topic Two!</button>
+        <button id="Topic3" class="btn btn-outline-light btn-lg topicButton">Click For Topic Three!</button>
+    </div>
+
 </div>
 
 <div class="container">
-    <div class="row text-center bg-light">
-        <div class="card card-body" id="bugfix">
-            <form id="form" class="form-inline align-items-center">
+    <div class="row text-center bg-light ">
+        <div class="card card-body " id="bugfix">
+            <h4>Enter Your Comment!</h4>
+            <form id="form" class="form-inline">
                 <div class="row">
-                    <div class="col-sm-8 col-sm-offset-2">
+                    <div class="col-sm-8 col-sm-offset-2 float-left">
                         <p class="cool-font">Name</p>
                         <input class="form-control" type="text" id="name" placeholder="Enter Your Name">
                         <p class="cool-font">Title</p>
@@ -45,8 +50,10 @@
                         <p class="">Comment</p>
                         <textarea class="form-control" rows="3" id="comment-box"
                             placeholder="What do You think?"></textarea>
+                        <br>
                         <button id="comment-submit" class="btn btn-lg pull-right">Submit!</button>
                     </div>
+                    <div><i class="far fa-comments fa-10x float-right"></i></div>
                 </div>
             </form>
         </div>

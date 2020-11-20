@@ -108,7 +108,7 @@ $(document).ready(() => {
     newCommentCardHeading.addClass("card-header");
     const deleteBtn = $("<button>");
     deleteBtn.text("Delete");
-    deleteBtn.addClass("delete btn btn-danger");
+    deleteBtn.addClass("delete btn btn-danger float-right");
     const newCommentName = $("<h2>");
     const newCommentTitle = $("<h3>");
     const newCommentDate = $("<small>");
@@ -119,6 +119,7 @@ $(document).ready(() => {
     const newCommentCardBody = $("<div>");
     newCommentCardBody.addClass("card-body");
     const newCommentBody = $("<p>");
+    newCommentBody.addClass("comment")
     const upArrowHTML = $("<button>");
     upArrowHTML.addClass("pointUp");
     const downArrowHTML = $("<button>");
@@ -206,11 +207,11 @@ $(document).ready(() => {
     getTopic3();
   });
 
-  $(".pointUp").on("click", event => {
-    event.preventDefault();
-    $("div > .car").each(function(index) {
-      console.log(`${index}: ${this.id}`);
-    });
+  $(".upPoint").click(function() {
+    score += 1;
+    $(this)
+      .find(".score")
+      .text(score);
   });
   //point up function
   /*$(document).on("click", "button.pointUp", event => {
