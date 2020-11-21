@@ -36,13 +36,10 @@ app.get("/", (req, res) => {
 commentRoute(app, db);
 trendRoute(app, db);
 
-//Gets topic from DB and inserts
-getTrend();
-
 // Finds topic to update
 
 function getTrend() {
-  googleTrends
+  return googleTrends
     .realTimeTrends({
       geo: "US",
       category: "h"
@@ -86,8 +83,10 @@ function getTrend() {
 }
 
 // Syncing our database and logging a message to the user upon success
-db.sequelize.sync().then(() => {
+db.sequelize.sync().then(async () => {
   // eslint-disable-next-line prettier/prettier
+  //Gets topic from DB and inserts
+  await getTrend();
   app.listen(PORT, () => console.log(
       "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
       PORT,

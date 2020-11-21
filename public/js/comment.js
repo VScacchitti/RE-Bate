@@ -26,6 +26,8 @@ $(document).ready(() => {
       }
     });
   }
+
+  getTopic1();
   // This function does an API call to delete comments
   function deleteComment(id) {
     $.ajax({
