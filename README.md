@@ -1,7 +1,7 @@
 # Re: bate (version 1.0)
 
 ## Description
-A custom made sequelize ORM. This application allows users to create a debate on a choice of three topics brough into our database from googleTrends. This application allows users to cooment on the topic above and see what others thing about it.
+A custom made sequelize ORM. This application allows users to create a debate on a choice of three topics brough into our database from googleTrends. This application allows users to cooment on the topic above and see what others think about it.
 
 ![Screen Shot 2020-11-20 at 4 21 28 PM](https://user-images.githubusercontent.com/67161794/99854370-b346b400-2b52-11eb-8d0c-ac9064bc4f4a.png)
 
